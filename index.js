@@ -58,7 +58,9 @@ util.inherits(StreamConverter, stream.Transform);
 
 StreamConverter.prototype._transform = function(chunk, encoding, done) {
 	// TODO support buffer
-	if (typeof chunk !== "string") {
+    if (typeof chunk === 'object') // quick handling of buffers... seems to work
+	chunk = chunk.toString ();
+    else if (typeof chunk !== "string") {
 		return done(new Error(util.format("%s needs string as its input.", PACKAGE_NAME)));
 	}
 	try {
